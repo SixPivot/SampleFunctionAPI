@@ -68,3 +68,19 @@ jobs:
         package: './dotnetcorefuncapp/dotnetcorefuncapp.zip'
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
 
+    # az ad sp create-for-rbac --name "github-AzureSponsorship-3e2bea16-63ed-4349-9b9c-fe2f91f8e3d4" --sdk-auth --role contributor --scopes /subscriptions/3e2bea16-63ed-4349-9b9c-fe2f91f8e3d4
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true 
+    # APIM - Create the Versioned API before running the deployment    
+    - name: Run Azure PowerShell script
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $ApiMgmtContext = New-AzApiManagementContext -ResourceGroupName "Samples" -ServiceName "samplebc"
+          $newRevision= ${{ github.run_number }}
+          $revision = New-AzApiManagementApiRevision -Context $ApiMgmtContext -ApiId "sample-function-api" -ApiRevision "$newRevision" -ServiceUrl https://samplefunctionapi-bc01.azurewebsites.net
+          Import-AzApiManagementApi -Context $ApiMgmtContext -SpecificationFormat OpenApi -SpecificationUrl https://samplefunctionapi-bc01.azurewebsites.net/api/swagger/json -ApiId "sample-function-api" -ApiRevision $revision.APIRevision -Path samplefuncapi -ServiceUrl https://samplefunctionapi-bc01.azurewebsites.net
+        azPSVersion: '3.1.0'
