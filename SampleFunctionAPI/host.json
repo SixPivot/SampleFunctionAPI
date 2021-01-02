@@ -1,0 +1,22 @@
+{
+    "version": "2.0",
+  "logging": {
+    "applicationInsights": {
+      "samplingExcludedTypes": "Request",
+      "samplingSettings": {
+        "isEnabled": true
+      }
+    }
+  },
+  "extensions": {
+    "Swashbuckle": {
+      "Documents": [
+        {
+          "Title": "Sample Function",
+          "Version": "v1",
+          "Description": "My Sample Function"
+        }
+      ]
+    }
+  }
+}
