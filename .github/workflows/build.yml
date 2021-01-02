@@ -65,6 +65,6 @@ jobs:
       id: fa
       with:
         app-name: samplefunctionapi-bc01
-        package: './dotnetcorefuncapp/dotnetcorefuncapp'
+        package: './dotnetcorefuncapp/dotnetcorefuncapp.zip'
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
 
