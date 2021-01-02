@@ -5,6 +5,15 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleFunctionAPI", "SampleFunctionAPI\SampleFunctionAPI.csproj", "{FAB60FE1-F37C-4F0F-B82D-51919876B875}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{08F90B86-1C2B-442E-B4A5-DA4FD90E76B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{EE0E8ABE-E3B1-4D69-AD92-1DB0D1B70848}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{1BD5FC51-5C7E-448D-90CF-F82124DA6C78}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +27,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EE0E8ABE-E3B1-4D69-AD92-1DB0D1B70848} = {08F90B86-1C2B-442E-B4A5-DA4FD90E76B1}
+		{1BD5FC51-5C7E-448D-90CF-F82124DA6C78} = {EE0E8ABE-E3B1-4D69-AD92-1DB0D1B70848}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E7AAAAF-1002-4B9A-B674-EBD827F6731F}
