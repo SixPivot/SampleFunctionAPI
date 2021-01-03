@@ -41,13 +41,16 @@ jobs:
         directory: 'dotnetcorefuncapp' 
     - name: Display structure of downloaded files
       run: ls -R
-    - name: Publish Artifacts
+    - name: Publish Build Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: dotnetcorefuncapp
-        path: |
-            ./dotnetcorefuncapp/
-            ./APIMPolicy/
+        path: '**/dotnetcorefunctapp.zip'
+    - name: Publish Policy Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: dotnetcorefuncapppolicies
+        path: '**/BackendServicePolicy.xml'
 
   deploy_to_DEV:
     name: Deploy DEV
@@ -58,10 +61,14 @@ jobs:
     needs: [build]
 
     steps:
-    - name: download sampleapi
+    - name: download samplefuncapi build
       uses: actions/download-artifact@v2
       with:
         name: dotnetcorefuncapp
+    - name: download samplefuncapi policies
+      uses: actions/download-artifact@v2
+      with:
+        name: dotnetcorefuncapppolicies
     - name: Display structure of downloaded files
       run: ls -R
     - name: 'Run Azure Functions Action'
