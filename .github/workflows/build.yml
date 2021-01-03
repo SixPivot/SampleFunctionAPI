@@ -45,7 +45,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: dotnetcorefuncapp
-        path: '**/dotnetcorefunctapp.zip'
+        path: '**/dotnetcorefuncapp.zip'
     - name: Publish Policy Artifacts
       uses: actions/upload-artifact@v2
       with:
