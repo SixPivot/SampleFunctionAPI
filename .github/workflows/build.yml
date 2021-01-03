@@ -39,12 +39,15 @@ jobs:
       with: 
         filename: dotnetcorefuncapp.zip
         directory: 'dotnetcorefuncapp' 
+    - name: Display structure of downloaded files
+      run: ls -R
     - name: Publish Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: dotnetcorefuncapp
         path: |
             '**/dotnetcorefuncapp.zip'
+            './dotnetcorefuncapp/dotnetcorefuncapp.zip'
             '**/BackendServicePolicy.xml'
 
   deploy_to_DEV:
