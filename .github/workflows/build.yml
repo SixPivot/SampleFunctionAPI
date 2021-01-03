@@ -71,6 +71,7 @@ jobs:
         name: dotnetcorefuncapppolicies
     - name: Display structure of downloaded files
       run: ls -R
+    # deploying without slots
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
