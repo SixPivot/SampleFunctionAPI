@@ -18,66 +18,15 @@ namespace SampleFunction
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            //builder.Services.AddSwaggerGen(c =>
-            //{
-            //    c.AddServer(new OpenApiServer { Url = "http://localhost" });
-            //    c.EnableAnnotations();
-            //    c.SwaggerDoc("v1", new OpenApiInfo
-            //    {
-            //        Title = "Demo API",
-            //        Version = "v1",
-            //        Description = "Demo API",
-            //        Contact = new OpenApiContact
-            //        {
-            //            Name = "Bill Chesnut",
-            //            Email = "bill.chesnut@sixpivot.com.au",
-            //            Url = new Uri("https://www.sixpivot.com.au/"),
-            //        },
-            //    });
-            //});
-
-            //SwaggerGenOptions swaggerOptions = new SwaggerGenOptions();
-            //swaggerOptions.AddServer(new OpenApiServer { Url = "http://localhost" });
-            //swaggerOptions.EnableAnnotations();
-            //swaggerOptions.SwaggerDoc("v1", new OpenApiInfo
-            //{
-            //    Title = "Demo Function API",
-            //    Version = "v1",
-            //    Description = "Demo Function API",
-            //    TermsOfService = new Uri("https://example.com/terms"),
-            //    Contact = new OpenApiContact
-            //    {
-            //        Name = "Bill Chesnut",
-            //        Email = "bill.chesnut@sixpivot.com.au",
-            //        Url = new Uri("https://www.sixpivot.com.au/"),
-            //    },
-            //    License = new OpenApiLicense
-            //    {
-            //        Name = "Use under LICX",
-            //        Url = new Uri("https://example.com/license"),
-            //    }
-            //});
-            //builder.AddSwashBuckle(Assembly.GetExecutingAssembly());
             builder.AddSwashBuckle(Assembly.GetExecutingAssembly(), opts =>
             {
                 opts.SpecVersion = OpenApiSpecVersion.OpenApi3_0;
-                //opts.ConfigureSwaggerGen(swaggerOptions);
                 opts.ConfigureSwaggerGen = (x =>
                 {
+                    x.OperationFilter<RemoveCodeQueryParameter>();
+                    x.DocumentFilter<CustomSwaggerDocumentAttribute>();
                     //x.AddServer(new OpenApiServer { Url = "http://localhost" });
                     x.EnableAnnotations();
-                    //x.SwaggerDoc("v1", new OpenApiInfo
-                    //{
-                    //    Title = "Demo Function API",
-                    //    Version = "v1",
-                    //    Description = "Demo Function API",
-                    //    Contact = new OpenApiContact
-                    //    {
-                    //        Name = "Bill Chesnut",
-                    //        Email = "bill.chesnut@sixpivot.com.au",
-                    //        Url = new Uri("https://www.sixpivot.com.au/"),
-                    //    },
-                    //});
                     x.CustomOperationIds(apiDesc =>
                     {
                         return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)
@@ -87,34 +36,45 @@ namespace SampleFunction
                 });
                 opts.AddCodeParameter = true;
                 opts.PrependOperationWithRoutePrefix = true;
-                opts.Documents = new[]
-                {
-                    new SwaggerDocument
-                    {
-                        //Name = "v1",
-                        Title = "Sample Function API",
-                        Version = "v1",
-                        Description = "This is an example Sample Function suppling API in .NET Core 3.1"
-                        //Contact = new OpenApiContact
-                        //{
-                        //    Name = "Bill Chesnut",
-                        //    Email = "bill.chesnut@sixpivot.com.au",
-                        //    Url = new Uri("https://www.sixpivot.com.au/"),
-                        //},
-                    }
-                };
-                opts.Title = "Swagger Test";
-                //opts.OverridenPathToSwaggerJson = new Uri("http://localhost:7071/api/Swagger/json");
-                //opts.ConfigureSwaggerGen = (x =>
-                //{
-                //    x.CustomOperationIds(apiDesc =>
-                //    {
-                //        return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)
-                //            ? methodInfo.Name
-                //            : new Guid().ToString();
-                //    });
-                //});
+                opts.Title = "Sample Function API Swagger";
             });
+        }
+    }
+
+    // used to remove code query parameter (fill fix with backend service in APIM)
+    public class RemoveCodeQueryParameter : IOperationFilter
+    {
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        {
+            if (operation.Parameters != null)
+            {
+                foreach(var parameter in operation.Parameters)
+                {
+                    if (parameter.Name == "code")
+                    {
+                        operation.Parameters.Remove(parameter);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    public class CustomSwaggerDocumentAttribute : IDocumentFilter
+    {
+        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        {
+            swaggerDoc.Info = new OpenApiInfo
+            {
+                Title = "Sample Function API",
+                Version = "v1",
+                Description = "Sample Function API",
+                Contact = new OpenApiContact
+                {
+                    Name = "Bill Chesnut",
+                    Email = "bill.chesnut@sixpivot.com.au",
+                    Url = new Uri("https://www.sixpivot.com.au/"),
+                },
+            };
         }
     }
 }
