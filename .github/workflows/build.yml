@@ -90,7 +90,7 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          Import-Module Az.ApiManagement
+          Import-Module Az.ApiManagement -Force
           $ApiMgmtContext = New-AzApiManagementContext -ResourceGroupName "Samples" -ServiceName "samplebc"
           $Tags = 'key', 'function', 'auto'
           New-AzApiManagementNamedValue -Context $ApiMgmtContext -NamedValueId "samplefunctionapi-bc01-key" -Name "samplefunctionapi-bc01-key" -Value ${{secrets.SAMPLEFUNCTIONAPI_BC01_KEY}} -Secret -Tags $Tags
