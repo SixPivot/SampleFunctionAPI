@@ -14,6 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\build.yml = .github\workflows\build.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIMPolicy", "APIMPolicy", "{45617C27-2616-4B1C-87B6-849C5530ACD4}"
+	ProjectSection(SolutionItems) = preProject
+		APIMPolicy\BackendServicePolicy.xml = APIMPolicy\BackendServicePolicy.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +36,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{EE0E8ABE-E3B1-4D69-AD92-1DB0D1B70848} = {08F90B86-1C2B-442E-B4A5-DA4FD90E76B1}
 		{1BD5FC51-5C7E-448D-90CF-F82124DA6C78} = {EE0E8ABE-E3B1-4D69-AD92-1DB0D1B70848}
+		{45617C27-2616-4B1C-87B6-849C5530ACD4} = {08F90B86-1C2B-442E-B4A5-DA4FD90E76B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E7AAAAF-1002-4B9A-B674-EBD827F6731F}
