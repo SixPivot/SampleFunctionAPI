@@ -1,22 +1,17 @@
 {
-    "version": "2.0",
+  "version": "2.0",
+  // this will remove the /api/ from the url
+  //"extensions": {
+  //  "http": {
+  //    "routePrefix": ""
+  //  }
+  //},
   "logging": {
     "applicationInsights": {
       "samplingExcludedTypes": "Request",
       "samplingSettings": {
         "isEnabled": true
       }
-    }
-  },
-  "extensions": {
-    "Swashbuckle": {
-      "Documents": [
-        {
-          "Title": "Sample Function",
-          "Version": "v1",
-          "Description": "My Sample Function"
-        }
-      ]
     }
   }
 }

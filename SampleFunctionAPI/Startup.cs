@@ -23,9 +23,7 @@ namespace SampleFunction
                 opts.SpecVersion = OpenApiSpecVersion.OpenApi3_0;
                 opts.ConfigureSwaggerGen = (x =>
                 {
-                    x.OperationFilter<RemoveCodeQueryParameter>();
                     x.DocumentFilter<CustomSwaggerDocumentAttribute>();
-                    //x.AddServer(new OpenApiServer { Url = "http://localhost" });
                     x.EnableAnnotations();
                     x.CustomOperationIds(apiDesc =>
                     {
@@ -34,32 +32,16 @@ namespace SampleFunction
                             : new Guid().ToString();
                     });
                 });
-                opts.AddCodeParameter = true;
+                // remove code as query parameter
+                opts.AddCodeParameter = false;
+                // see host.json to remove /api/ from route prefix
                 opts.PrependOperationWithRoutePrefix = true;
                 opts.Title = "Sample Function API Swagger";
             });
         }
     }
 
-    // used to remove code query parameter (fill fix with backend service in APIM)
-    public class RemoveCodeQueryParameter : IOperationFilter
-    {
-        public void Apply(OpenApiOperation operation, OperationFilterContext context)
-        {
-            if (operation.Parameters != null)
-            {
-                foreach(var parameter in operation.Parameters)
-                {
-                    if (parameter.Name == "code")
-                    {
-                        operation.Parameters.Remove(parameter);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    public class CustomSwaggerDocumentAttribute : IDocumentFilter
+     public class CustomSwaggerDocumentAttribute : IDocumentFilter
     {
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
