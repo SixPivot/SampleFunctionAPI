@@ -93,7 +93,7 @@ jobs:
           $ApiMgmtContext = New-AzApiManagementContext -ResourceGroupName "Samples" -ServiceName "samplebc"
           $Tags = 'key', 'function', 'auto'
           New-AzApiManagementNamedValue -Context $ApiMgmtContext -NamedValueId "samplefunctionapi-bc01-key" -Name "samplefunctionapi-bc01-key" -Value "${{secrets.SAMPLEFUNCTIONAPI_BC01_KEY}}" -Secret -Tag $Tags
-          $credential = New-AzApiManagementBackendCredential -Header "x-functions-key" @{"x-functions-key" = "samplefunctionapi-bc01-key"}
+          $credential = New-AzApiManagementBackendCredential -Header @{"x-functions-key" = "samplefunctionapi-bc01-key"}
           New-AzApiManagementBackend -Context  $ApiMgmtContext -BackendId samplefunctionapi-bc01 -ResourceId "/subscriptions/3e2bea16-63ed-4349-9b9c-fe2f91f8e3d4/resourceGroups/Samples/providers/Microsoft.Web/sites/samplefunctionapi-bc01" -Url 'https://samplefunctionapi-bc01.azurewebsites.net/api' -Protocol http -Title "samplefunctionapi-bc01" -SkipCertificateChainValidation $true -Credential $credential -Description "samplefunctionapi-bc01"
           Set-AzApiManagementPolicy -Context $ApiMgmtContext -ApiId "sample-function-api" -PolicyFilePath './dotnetcorefuncapp/BackendServicePolicy.xml'
           $newRevision= ${{ github.run_number }}
