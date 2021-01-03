@@ -46,8 +46,8 @@ jobs:
       with:
         name: dotnetcorefuncapp
         path: |
-            path/dotnetcorefuncapp/
-            path/APIMPolicy/
+            ./dotnetcorefuncapp/
+            ./APIMPolicy/
 
   deploy_to_DEV:
     name: Deploy DEV
