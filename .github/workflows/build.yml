@@ -46,9 +46,8 @@ jobs:
       with:
         name: dotnetcorefuncapp
         path: |
-            '**/dotnetcorefuncapp.zip'
-            './dotnetcorefuncapp/dotnetcorefuncapp.zip'
-            '**/BackendServicePolicy.xml'
+            path/dotnetcorefuncapp/
+            path/APIMPolicy/
 
   deploy_to_DEV:
     name: Deploy DEV
