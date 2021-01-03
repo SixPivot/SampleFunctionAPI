@@ -90,7 +90,6 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          Import-Module Az.ApiManagement -Force
           $ApiMgmtContext = New-AzApiManagementContext -ResourceGroupName "Samples" -ServiceName "samplebc"
           $Tags = 'key', 'function', 'auto'
           New-AzApiManagementNamedValue -Context $ApiMgmtContext -NamedValueId "samplefunctionapi-bc01-key" -Name "samplefunctionapi-bc01-key" -Value ${{secrets.SAMPLEFUNCTIONAPI_BC01_KEY}} -Secret -Tags $Tags
@@ -100,4 +99,4 @@ jobs:
           $newRevision= ${{ github.run_number }}
           $revision = New-AzApiManagementApiRevision -Context $ApiMgmtContext -ApiId "sample-function-api" -ApiRevision "$newRevision" -ServiceUrl https://samplefunctionapi-bc01.azurewebsites.net
           Import-AzApiManagementApi -Context $ApiMgmtContext -SpecificationFormat OpenApi -SpecificationUrl https://samplefunctionapi-bc01.azurewebsites.net/api/swagger/json -ApiId "sample-function-api" -ApiRevision $revision.APIRevision -Path samplefuncapi -ServiceUrl https://samplefunctionapi-bc01.azurewebsites.net
-        azPSVersion: '3.1.0'
+        azPSVersion: '4.7.0'
