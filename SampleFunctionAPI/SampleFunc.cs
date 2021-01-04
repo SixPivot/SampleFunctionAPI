@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using SampleFunction.Models;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Linq;
+using AzureFunctions.Extensions.Swashbuckle.Attribute;
 
 namespace SampleFunction
 {
@@ -71,9 +72,11 @@ namespace SampleFunction
 
             return new OkObjectResult(sample);
         }
+        [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [FunctionName("SamplePost")]
         [SwaggerOperation(
             OperationId = "PostSample",
@@ -81,13 +84,10 @@ namespace SampleFunction
             Description = "Create a new Sample"
         )]
         public static async Task<IActionResult> Run2(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "Sample")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "Sample")] [RequestBodyType(typeof(Sample), "sample")] Sample sample,
             ILogger log)
         {
             log.LogInformation("PostSample - HTTP trigger function processed a request.");
-
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var sample = JsonConvert.DeserializeObject<Sample>(requestBody);
 
             if (sample.CustomerId == 5)
             {
@@ -101,9 +101,11 @@ namespace SampleFunction
 
             return new OkResult();
         }
+        [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [FunctionName("SamplePut")]
         [SwaggerOperation(
             OperationId = "PutSample",
@@ -111,13 +113,15 @@ namespace SampleFunction
             Description = "Update an existing Sample"
         )]
         public static async Task<IActionResult> Run3(int id,
-            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "Sample/{id:int}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "Sample/{id:int}")] [RequestBodyType(typeof(Sample), "sample")] Sample sample,
             ILogger log)
         {
             log.LogInformation("PutSample - HTTP trigger function processed a request.");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var sample = JsonConvert.DeserializeObject<Sample>(requestBody);
+            if (sample.CustomerId != id)
+            {
+                return new BadRequestResult();
+            }
 
             if (sample.CustomerId == 5)
             {
